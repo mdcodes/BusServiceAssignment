@@ -1,0 +1,17 @@
+@model IEnumerable<A2BusService.Models.RouteStop>
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = $"Routes using stop {ViewBag.BusStopNumber} - {ViewBag.location}";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="MDRouteSchedule" asp-action="RouteStopSchedule" method="post">   
+    @foreach (var item in Model)
+    {
+
+        <label>
+        <input type="radio" name="routeName" value="@item.RouteStopId" /> @item.BusRouteCodeNavigation.RouteName</label> <br />
+    }
+        <button type="submit">Submit</button>
+</form>

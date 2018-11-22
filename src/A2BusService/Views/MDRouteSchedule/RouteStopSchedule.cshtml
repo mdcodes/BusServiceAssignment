@@ -1,0 +1,35 @@
+@model IEnumerable<A2BusService.Models.RouteSchedule>
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = $"Stop: {Context.Session.GetString("BusStopNumber")} - {Context.Session.GetString("location")} Route: {Context.Session.GetString("busRouteCode")} - " +
+        $"{ Context.Session.GetString("routeName")}";
+}
+
+@{
+    <h1>Stop: @Context.Session.GetString("BusStopNumber") - @Context.Session.GetString("location")</h1>
+    <h2>Route: @Context.Session.GetString("busRouteCode") - @Context.Session.GetString("routeName")</h2>
+}
+
+<h1>Mon-Fri</h1>
+<ul>
+    @foreach (var item in Model)
+    {
+        if (item.IsWeekDay)
+        {
+            var startTime = item.StartTime + Context.Session.GetString("offsetMinutes");
+            <li>@startTime</li>
+        }
+    }
+</ul>
+<h1>Sat/Sun &amp; Holidays</h1>
+<ul>
+    @foreach (var item in Model)
+    {
+        if (!item.IsWeekDay)
+        {
+            var startTime = item.StartTime + Context.Session.GetString("offsetMinutes");
+            <li>@startTime</li>
+        }
+    }
+</ul>
